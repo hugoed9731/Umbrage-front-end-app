@@ -1,0 +1,137 @@
+
+
+<section class="usersection animated fadeIn fast">
+    <div class="container" style="font-family: Helvetica, sans-serif;">
+      <div class="row">
+
+        <div class="col-12 d-flex justify-content-between pt-5 pb-5">
+          <h1 class="h2">Users</h1>
+          <a href=""  onclick="this.blur();" 
+          class="btn btn-dark mx-3 fs-5 fw-normal botonModal"
+          target="_blank"
+          data-bs-toggle="modal" data-bs-target="#myModal">Create</a>
+        </div>
+
+        <div class="table-responsive col shadow-5 mb-5 animated fadeIn fast" >
+          <table style="font-size: 
+          14px;" class="table table-borderless align-middle mb-0 bg-white redondo fw-light">
+            <thead style="border-bottom: 1px solid rgb(230, 230, 230);">
+              <tr>
+                <th>avatar</th>
+                <th>firstName</th>
+                <th>lastName</th>
+                <th>email</th>
+                <th>job</th>
+                <th>id</th>
+              </tr>
+            </thead>
+            <tbody *ngFor="let user of users">
+              <tr>
+                <td class="d-flex align-items-center">
+                    <img
+                         [src]="user.avatar"
+                         alt=""
+                         style="width: 45px; height: 45px"
+                         class="rounded-circle"
+                         />
+                </td>
+                <td class="fw-bold mb-1"> {{user.first_name}} </td>
+                <td  class="fw-bold mb-1">{{user.last_name}}</td>
+                <td  class="fw-bold mb-1">{{user.email}}</td>
+                <td  class="fw-bold mb-1">{{user.job_title}}</td>
+                <td  class="fw-bold mb-1">{{user.id}}</td>
+
+                <td>
+                  <a class="btn btn-info btn-sm btn-rounded text-white fw-bold"
+                   [routerLink]="['/list/users/', user.id]">
+                    Edit
+                  </a>
+                </td>
+
+                <td>
+                  <a class="btn btn-danger btn-sm btn-rounded fw-bold" 
+                     (click)="deleteUser(user)">
+                    Delete
+                  </a>
+                </td>
+              </tr>
+              
+            </tbody>
+          </table>
+        </div>
+      </div>
+       
+      </div>
+</section>
+
+<!-- * Add user modal -->
+<div  class="modal fade" id="myModal" tabindex="-1" aria-hidden="true" aria-labelledby="modalTitle" data-bs-backdrop="static">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="modalTitle">New User</h5>
+              <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal" aria-label="Close" onclick="this.blur();"></button>
+          </div>
+          <div class="modal-body">
+            <!-- (ngSubmit)="sendEmail()"   [formGroup]="emailForm"-->
+              <form autocomplete="off"
+                    [formGroup]="newUser"
+                    (ngSubmit)="create()">
+                    
+                  <div class="mb-1">
+                      <label for="recipient-name" class="col-form-label">First Name</label>
+                      <input type="text" name="first_name" class="form-control" id="recipient-name"
+                      formControlName="first_name"
+                      />
+                      <span class="errores" *ngIf="noValid('first_name')" >{{firstnameErrorMsg}}</span>
+                  </div>
+
+                  <div class="mb-1">
+                    <label for="recipient-name" class="col-form-label">Last Name</label>
+                    <input type="text" name="last_name" class="form-control" id="recipient-name"
+                      formControlName="last_name"
+                      />
+                      <span class="errores" *ngIf="noValid('last_name')" >{{lastnameErrorMsg}}</span>
+                  </div>
+
+                  
+                  <div class="mb-1">
+                    <label for="recipient-name" class="col-form-label">Email</label>
+                    <input type="email" name="email" class="form-control" id="recipient-name"
+                      formControlName="email"
+                      />
+                      <span class="errores" *ngIf="noValid('email')" >{{emailErrorMsg}}</span>
+
+                  </div>
+
+                  <div class="mb-1">
+                    <label for="recipient-name" class="col-form-label">Job_title</label>
+                    <input type="text" name="job_title" class="form-control" id="recipient-name"
+                      formControlName="job_title"
+                      />
+                      <span class="errores" *ngIf="noValid('job_title')" >{{jobErrorMsg}}</span>
+
+                  </div>
+
+                  <!-- todo: avatar -img -->
+                  <!-- <div class="mb-1">
+                    <label for="recipient-name" class="col-form-label">Avatar</label>
+                    <input type="file" name="avatar" class="form-control" id="recipient-name"
+                      formControlName="avatar"
+                      />
+                  </div> -->
+
+
+                  <div class=" d-flex align-content-center align-items-center  mt-4">
+                      <button style="margin: 0px 10px 0px 0px;" type="button" class="btn btn-secondary" data-bs-dismiss="modal">cancel</button>
+                      <button type="submit" class="btn btn-primary" onclick="this.blur();"
+                      [disabled]="!newUser.valid" 
+                              [ngClass]="{'bg-gray-300 hover:bg-gray-300 text-slate-500': !newUser.valid}"
+                              >create</button>
+                  </div>
+              </form>
+          </div>
+
+      </div>
+  </div>
+</div> 
